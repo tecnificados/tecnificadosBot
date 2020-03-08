@@ -111,8 +111,9 @@ public class App
         log.info(Messages.getString("frases.sw")+" "+starWars.size()); 
         
         try {
-			createTweet("Tweet inicial automatizado de prueba");
-		} catch (TwitterException e) {
+			String createTweet = createTweet("Otro Tweet inicial automatizado de prueba");
+			log.info(createTweet);
+        } catch (TwitterException e) {
 			log.error("Error twiteando:",e);
 		}
     }
