@@ -18,22 +18,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tecnificados.com.bot.util.Messages;
 
-import jdk.internal.org.jline.reader.Parser;
-
-
+import twitter4j.Status;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
+import twitter4j.conf.ConfigurationBuilder;
 
 public class App 
-{
-
-
-	private static final Logger log = LoggerFactory.getLogger(App.class);
+{	private static final Logger log = LoggerFactory.getLogger(App.class);
 	
 	private static JSONParser parser=new JSONParser();
 	
 	private static JSONArray starWars=new JSONArray();
+	private static Twitter twitter = null;
 	
 	private static void configuration() {
 		Properties prop = new Properties();
+		Properties twitterProp = new Properties();
     	try 
     	{
     		InputStream input = new FileInputStream(Constant.CONF_PROPERTIES);
@@ -43,8 +44,39 @@ public class App
     	    log.error(Messages.getString("App.3"),ex); 
     	}
     	
+    	try 
+    	{
+    		InputStream input = new FileInputStream(Constant.TWITTER_PROPERTIES);
+    		twitterProp.load(input);    	         	    
+    	} 
+    	catch (IOException ex) {
+    	    log.error(Messages.getString("twitterConf.ko"),ex); 
+    	    return;
+    	}
     	
-		
+    	
+    	ConfigurationBuilder twitterConfigurationBuilder = new ConfigurationBuilder();
+    	twitterConfigurationBuilder.setDebugEnabled(true)
+    	  .setOAuthConsumerKey(twitterProp.getProperty("oauth.consumerKey"))
+    	  .setOAuthConsumerSecret(twitterProp.getProperty("oauth.consumerSecret"))
+    	  .setOAuthAccessToken(twitterProp.getProperty("oauth.accessToken"))
+    	  .setOAuthAccessTokenSecret(twitterProp.getProperty("oauth.accessTokenSecret"));
+    	
+    	TwitterFactory tf = new TwitterFactory(twitterConfigurationBuilder.build());
+    	twitter = tf.getInstance();
+	}
+	
+	
+	public static String createTweet(String tweet) throws TwitterException {
+		String statusText="";
+	    if (twitter!=null)
+	    {
+	    	Status status = twitter.updateStatus(tweet);
+	    	statusText= status.getText();
+	    }else {
+	    	log.info(Messages.getString("twitter.init.ko"));
+	    }
+	    return statusText;
 	}
 	
     public static void main( String[] args )
@@ -76,8 +108,13 @@ public class App
 			return;
 		}
         
-        
         log.info(Messages.getString("frases.sw")+" "+starWars.size()); 
+        
+        try {
+			createTweet("Tweet inicial automatizado de prueba");
+		} catch (TwitterException e) {
+			log.error("Error twiteando:",e);
+		}
     }
 
 	

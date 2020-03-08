@@ -10,4 +10,6 @@ public class Constant {
 	
 	public static String swFilePath="frasesSW.json"; 
 	
+	public static final String TWITTER_PROPERTIES = "twitter4j.properties";
+	
 }
