@@ -1,0 +1,16 @@
+{
+	"frases": [{
+		"autor": "Qui-Gon Jinn",
+		"frase": "Concéntrate en el momento; siente, no pienses.",
+		"pelicula": "La amenaza fantasma"
+	}, {
+		"autor": "Qui-Gon Jinn",
+		"frase": "Cuando se apuesta, a la larga, siempre se pierde. (Qui-Gon Jinn)",
+		"pelicula": "La amenaza fantasma"
+	}, {
+		"autor": "Yoda",
+		"frase": "El miedo es el camino hacia el Lado Oscuro. El miedo lleva a la ira, la ira lleva al odio, el odio lleva al sufrimiento. Percibo mucho miedo en ti.",
+		"pelicula": "La amenaza fantasma"
+	}]
+
+}
